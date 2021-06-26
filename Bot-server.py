@@ -68,7 +68,7 @@ def ReadText():
     label.update()
     messagebox.delete(0, 'end')
 
-    url = 'http://innovate-yourself.herokuapp.com/webhooks/rest/webhook' 
+    url = 'Enter your Bot webhook' 
     #  ##change rasablog with your app name
     # url = 'http://127.0.0.1:3000'
     myobj = {
