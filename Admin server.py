@@ -24,7 +24,6 @@ def recv():
     while True:
         sendermessage =clientsocket.recv(1024).decode() 
         if not sendermessage == "":
-            time.sleep(5)
             conversation.append("Client: "+sendermessage)
             text.set("\n".join(conversation))
             label.update()
