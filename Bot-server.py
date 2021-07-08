@@ -1,5 +1,4 @@
 import socket 
-import time 
 import threading
 import tkinter
 root = tkinter.Tk()
@@ -26,7 +25,6 @@ def recv():
     while True:
         sendermessage =clientsocket.recv(1024).decode() 
         if not sendermessage == "":
-            time.sleep(5)
             # lstbx.insert(0,"Admin: "+sendermessage)
             conversation.append("Admin: "+sendermessage)
             text.set("\n".join(conversation))
