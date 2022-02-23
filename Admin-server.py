@@ -2,16 +2,20 @@ import socket
 import time 
 import threading
 import tkinter
+
+# Tkinter window
 root = tkinter.Tk()
 root.title("Admin Chat")
 root.geometry("430x500")
 root.config(bg="white")
 conversation=["\n".center(120)]
 
+# threading recv function
 def func():
     t = threading.Thread(target=recv)
     t.start()
 
+# receive message from User
 def recv():
     listensocket = socket.socket()
     port = 3000
@@ -30,6 +34,8 @@ def recv():
 
 xr = 0
 s = socket.socket()
+
+# sending message to User
 def sendmessage():
     global xr # send
     if xr==0:
@@ -52,8 +58,7 @@ def sendmessage():
         messagebox.delete(0,'end')
         s.send(msg.encode())
         
-
-
+# threading the sendmessage function
 def threadsendmsg():
     th = threading.Thread(target = sendmessage)
     th.start()
@@ -61,19 +66,19 @@ def threadsendmsg():
 buttons = tkinter.Button(root,text="start",command=func,borderwidth=0)
 buttons.place(x=200,y=10)
 
+# Text-field
 message = tkinter.StringVar()
 messagebox = tkinter.Entry(root,textvariable=message,font=('calibre',10,'normal'),border=2,width=42)
 messagebox.place(x=10,y=444)
 
+# Button initially with ReadText command
 sendmessagebutton = tkinter.Button(root,text="send",command=threadsendmsg,borderwidth=0)
 sendmessagebutton.place(x=350,y=444)
-text = tkinter.StringVar()
 
+# Display field
+text = tkinter.StringVar()
 label = tkinter.Label(root, textvariable=text,height=20,width=43,justify=tkinter.LEFT,
                      anchor='nw',font={"family":"Arial Black", "size":20})
 label.place(x=15,y=80)
-
-# lstbx = tkinter.Listbox(root,height=20,width=43)
-# lstbx.place(x=15,y=80)
 
 root.mainloop()
