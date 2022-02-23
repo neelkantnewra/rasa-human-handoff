@@ -48,7 +48,8 @@ Here `Human Handoff` is our trigger message, when our user interface recevied th
 
 ## To run the file
 
-Change `url = 'ENTER YOUR BOT WEBHOOK'`  with your bot webhook url it is in line 77 Bot-server.py
+Change `url = 'ENTER YOUR BOT WEBHOOK'`  with your bot webhook url it is in line 77 Bot-server.py\
+sample `'https://rasablog.herokuapp.com/webhooks/rest/webhook'`
 
 `python Bot-server.py`\
 `python Admin-server.py`
