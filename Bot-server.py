@@ -1,18 +1,22 @@
 import socket 
 import threading
 import tkinter
-root = tkinter.Tk()
 import requests
 import ast
+
+# Tkinter window
+root = tkinter.Tk()
 root.geometry("430x500")
 root.config(bg="white")
 root.title("User chat")
 conversation=["\n".center(120)]
 
+# threading recv function
 def func():
     t = threading.Thread(target=recv)
     t.start()
 
+# receive message from Admin 
 def recv():
     listensocket = socket.socket()
     port = 4000
@@ -25,13 +29,14 @@ def recv():
     while True:
         sendermessage =clientsocket.recv(1024).decode() 
         if not sendermessage == "":
-            # lstbx.insert(0,"Admin: "+sendermessage)
             conversation.append("Admin: "+sendermessage)
             text.set("\n".join(conversation))
             label.update()
 
 xr = 0
 s = socket.socket()
+
+# sending message to Admin
 def sendmessage():
     global xr # send
     if xr==0:
@@ -44,7 +49,6 @@ def sendmessage():
         label.update()
         messagebox.delete(0,'end')
         s.send(msg.encode())
-        
         xr = xr + 1 
     else:
         msg = messagebox.get()
@@ -54,76 +58,68 @@ def sendmessage():
         messagebox.delete(0,'end')
         s.send(msg.encode())
     
-
+# threading the sendmessage function
 def threadsendmsg():
     th = threading.Thread(target = sendmessage)
     th.start()
 
+#*****---------- Bot Interaction with User -------******#
+
+
 def ReadText():
-    message=messagebox.get()
+    message=messagebox.get() # Reading message in text-field
     conversation.append("Client: "+message)
     text.set("\n".join(conversation))
     label.update()
     messagebox.delete(0, 'end')
 
-    url = 'Enter your Bot webhook' 
-    #  ##change rasablog with your app name
-    # url = 'http://127.0.0.1:3000'
+    #------------ CHANGE THIS BEFORE RUNNING ----------#
+    url = 'ENTER YOUR BOT WEBHOOK' 
+    ###################################################
+    
+   # creating diconary of message with sender name, You can change sender name if you want
     myobj = {
         "message": message,
         "sender": "Prachi",
     }
     
+    # posting the message to our api to get bot response
     x = requests.post(url, json=myobj)
     ast.literal_eval(x.text)
-    print(ast.literal_eval(x.text))
-    # conversation.append("Innovate: "+"\n".join([ast.literal_eval(x.text)[0]["text"].split(" ")[3*(i-1):3*(i-1)+3] if len(ast.literal_eval(x.text)[0]["text"].split(" "))//10 >10 else ast.literal_eval(x.text)[0]["text"] for i in range(len(ast.literal_eval(x.text)[0]["text"].split(" "))//10)]))
-
+    
+    # Bot response is displayed in the display field
     reply=""
     if len(ast.literal_eval(x.text)[0]["text"].split(" ")) >9:
         for i in range(len(ast.literal_eval(x.text)[0]["text"].split(" "))//9 +1):
             reply+=" ".join(ast.literal_eval(x.text)[0]["text"].split(" ")[9 * (i - 1):9 * (i - 1) + 9]) + "\n"
     else:
         reply=ast.literal_eval(x.text)[0]["text"]
-    # lstbx.insert(0,"Bot: "+reply)
     conversation.append("Bot: "+reply)
     text.set("\n".join(conversation))
     label.update()
-
-    if ast.literal_eval(x.text)[0]["text"] == "I am a bot, powered by Rasa.":
+    
+    # if received response from bot is "Human Handoff"
+    if ast.literal_eval(x.text)[0]["text"] == "Human Handoff":
         conversation.append('Bot: Admin is connecting please wait for few minutes')
         conversation.append('Admin: Hello i am your admin. How can i help you')
         text.set("\n".join(conversation))
         label.update()
         func()
         sendmessagebutton.configure(text = "Human send",command=sendmessage)
-        #my code 
 
-    print([list(i.keys())[1] for i in ast.literal_eval(x.text)])
-    # if 'image' in [list(i.keys())[1] for i in ast.literal_eval(x.text)]:
-    #     def OpenImage():
-    #         import webbrowser
-    #         webbrowser.open(ast.literal_eval(x.text)[1]["image"].replace("\\",""))
-    #     conversation.append("Neelkant: " + ast.literal_eval(x.text)[1]["image"].replace("\\",""))
-    #     b = tkinter.Button(root, text="Open Image",command=OpenImage).pack(...)
-    # text.set("\n".join(conversation))
-# buttons = tkinter.Button(root,text="start",command=func,borderwidth=0)
-# buttons.place(x=200,y=10)
-
+# Text-field
 message = tkinter.StringVar()
 messagebox = tkinter.Entry(root,textvariable=message,font=('calibre',10,'normal'),border=2,width=42)
 messagebox.place(x=10,y=444)
 
+# Display field
 text = tkinter.StringVar()
 label = tkinter.Label(root, textvariable=text,height=20,width=43,justify=tkinter.LEFT,
                      anchor='nw',font={"family":"Arial Black", "size":20})
 label.place(x=15,y=80)
 
-
+# Button initially with ReadText command
 sendmessagebutton = tkinter.Button(root,text="send",command=ReadText,borderwidth=0)
 sendmessagebutton.place(x=350,y=444)
-
-# lstbx = tkinter.Listbox(root,height=20,width=43)
-# lstbx.place(x=15,y=80)
 
 root.mainloop()
