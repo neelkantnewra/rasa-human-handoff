@@ -48,3 +48,11 @@ Here `Human Handoff` is our trigger message, when our user interface recevied th
 
 ## To run the file
 
+`python Bot-server.py`\
+`python Admin server.py`
+
+## Task yet to be done
+ - [ ] Send a notification to Admin, "Hey! user want to interact with you"
+ - [ ] Implement using flask, for Web App
+
+**Note:- The code are edited and comment are added, removed unnecessary code.**
