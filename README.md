@@ -1,7 +1,5 @@
 # Rasa Human handoff using Socket Programming and API
 
-**Note:** For this code your Bot must be deployed somewhere, you can use Heroku-it's free
-
 Sorry For Tkinter 😊
 
 ![Human Handoff (2)](https://user-images.githubusercontent.com/63470232/155241877-91460b64-8c6d-4075-802c-1874b20fa1c6.png)
