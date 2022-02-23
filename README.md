@@ -51,7 +51,7 @@ Here `Human Handoff` is our trigger message, when our user interface recevied th
 Change `url = 'ENTER YOUR BOT WEBHOOK'`  with your bot webhook url it is in line 77 Bot-server.py
 
 `python Bot-server.py`\
-`python Admin server.py`
+`python Admin-server.py`
 
 ## Task yet to be done
  - [ ] Send a notification to Admin, "Hey! user want to interact with you"
